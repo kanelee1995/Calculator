@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Calculator project</title>
+</head>
+
+<body>
+
+    <div id="body">
+        <div class="container">
+
+            <div id="result">
+            </div>
+
+            <div id="number">
+                <div data-key="108" data-key="59" class="numbers">
+                    <button id="0">0</button>
+                </div>
+                <div data-key="97" data-key="49" class="numbers">
+                    <button id="1">1</button>
+                </div>
+                <div data-key="98" data-key="50" class="numbers">
+                    <button id="2">2</button>
+                </div>
+                <div data-key="99" data-key="51" class="numbers">
+                    <button id="3">3</button>
+                </div>
+                <div data-key="100" data-key="52" class="numbers">
+                    <button id="4">4</button>
+                </div>
+                <div data-key="101" data-key="53" class="numbers">
+                    <button id="5">5</button>
+                </div>
+                <div data-key="102" data-key="54" class="numbers">
+                    <button id="6">6</button>
+                </div>
+                <div data-key="105" data-key="55" class="numbers">
+                    <button id="7">7</button>
+                </div>
+                <div data-key="106" data-key="56" class="numbers">
+                    <button id="8">8</button>
+                </div>
+                <div data-key="107" data-key="58" class="numbers">
+                    <button id="9">9</button>
+                </div>
+            </div>
+
+            <div id="function-bar">
+                <div id="+" class="function">
+                    <button>+</button>
+                </div>
+                <div id="-" class="function">
+                    <button>-</button>
+                </div>
+                <div id="*" class="function">
+                    <button>*</button>
+                </div>
+                <div id="/" class="function">
+                    <button>/</button>
+                </div>
+                <div id="equal" class="function">
+                    <button>=</button>
+                </div>
+            </div>
+
+            <div class="clear">
+                <button>Clear</button>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <script>
+        let button = document.querySelectorAll("button");
+        const result = document.getElementById("result");
+        let showResult = document.createElement("p");
+        let storedValueA = '';
+        let storedValueB = '';
+        let storedOperator = '';
+        let old = '';
+
+        // the i is the id of the number.
+        for (i = 0; i < 10; i++) { // all number
+            button[i].addEventListener("click", showNumber(i));
+        }
+
+        for (i = 10; i < 16; i++) { // all operater
+            button[i].addEventListener("click", operateAndStore(i));
+        }
+
+
+        //Function of numbers 
+
+        function showNumber(i) {
+            //add an if function to check if there is a class called valueB
+            if (i < 10) {
+                return function() {
+                    showResult.innerHTML = old + i;
+                    document.getElementById("result").appendChild(showResult); 
+                    old += i;
+                };
+            }
+            // if there is class valueB, make it to storeb valueB
+        }
+
+
+        //Function of operaters 
+        let storedNumberA = parseInt(storedValueA);
+
+        function operateAndStore(i) {
+            if (i === 10) { //addition
+                return function() {
+                    // add class valueB if added to 
+                    for (i = 0; i < 10; i++) { // all number
+                        button[i].classList.add("valueB")
+                    }
+                    storedValueA = document.getElementById("result").textContent;
+
+                    return operater = "+";
+
+                };
+            }
+        }
+
+
+        //Function of calculation 
+
+        function add(num1, num2) {
+            return num1 + num2;
+        }
+
+        function subtract(num1, num2) {
+            return num1 - num2;
+        }
+
+        function multiple(num1, num2) {
+            return num1 * num2;
+        }
+
+        function divide(num1, num2) {
+            return num1 / num2;
+        }
+
+        function operate(operater, num1, num2) {
+            if (operater === "+") {
+                return add(num1, num2)
+            } else if (operater === "-") {
+                return subtract(num1, num2)
+            } else if (operater === "*") {
+                return multiple(num1, num2)
+            } else if (operater === "/") {
+                return divide(num1, num2)
+            }
+
+        }
+
+        // it's the keydown version
+        // if (e.key === "1" || e.key === "2" || e.key === "3" || e.key === "4" || e.key === "5" || e.key === "6" || e.key === "7" || e.key === "8" || e.key === "9" || e.key === "0") {
+        // const result = document.getElementById("result");
+        // let showResult = document.createElement("p");
+        // showResult.innerHTML = `${e.key}`;
+        // document.getElementById("result").appendChild(showResult); 
+        // storedValueA += e.key
+        // return;
+
+        // } else if (e.key === "-") {
+        //     const result = document.getElementById("result");
+        //     let showResult = document.createElement("p");
+        //     showResult.innerHTML = `${e.key}`;
+        //     document.getElementById("result").appendChild(showResult); 
+        //     storedOperator += e.key;
+        //     return;
+
+        // } else if (e.key !== "1" || "2" || "3" || "4" || "5" || "6" || "7" || "8" || "9" || "0") {
+        //     return;
+        // }
+    </script>
+</body>
+
+
+</html>
