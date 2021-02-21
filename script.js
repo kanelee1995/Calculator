@@ -28,18 +28,18 @@ clearButton.addEventListener("click", clear)
 //Function of numbers 
 
 function showNumber(i) {
-    if (storedOperator === null) {
+    if (storedOperator !== null) {
         return function() {
-            createResultA.innerHTML = old + i;
-            createResultA.style.color = "white";
-            before.appendChild(createResultA);
-            old += i;
+                createResultA.innerHTML = old + i;
+                createResultA.style.color = "white";
+                before.appendChild(createResultA);
+                old += i;
 
-        }
-    } else if (storedOperator !== null) {
-        return function() {
-            alert(hi);
-        }
+            }
+            // } else if (storedOperator !== null) {
+            //     return function() {
+            //         alert(hi);
+            //     }
     }
     // if there is class valueB, make it store in valueB
 
