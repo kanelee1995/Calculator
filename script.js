@@ -1,4 +1,4 @@
-const numberButton = document.querySelectorAll("[data-key]");
+const numberButton = document.getElementsByClassName("numbers");
 const before = document.getElementById("before");
 const after = document.getElementById("after");
 const plusButton = document.getElementById("+");
@@ -12,59 +12,195 @@ let createResultB = document.createElement("p");
 let storedValueA = '';
 let storedValueB = '';
 let storedOperator = null;
-let old = '';
+let storedNumberA = '';
+let storedNumberB = '';
+let bracketA = '';
+let bracketB = '';
 
 for (let i = 0; i < 10; i++) {
-    numberButton[i].addEventListener("click", showNumber(i))
+    numberButton[i].addEventListener("click", showNumber)
 }
 
-plusButton.addEventListener("click", operateAndStore("plus"))
-minusButton.addEventListener("click", operateAndStore("minus"))
-mulitplyButton.addEventListener("click", operateAndStore("mulitply"))
-divideButton.addEventListener("click", operateAndStore("divide"))
+plusButton.addEventListener("click", operateAndStore)
+minusButton.addEventListener("click", operateAndStore)
+mulitplyButton.addEventListener("click", operateAndStore)
+divideButton.addEventListener("click", operateAndStore)
 equalButton.addEventListener("click", cal)
 clearButton.addEventListener("click", clear)
 
 //Function of numbers 
 
-function showNumber(i) {
-    if (storedOperator !== null) {
-        return function() {
-                createResultA.innerHTML = old + i;
-                createResultA.style.color = "white";
-                before.appendChild(createResultA);
-                old += i;
-
-            }
-            // } else if (storedOperator !== null) {
-            //     return function() {
-            //         alert(hi);
-            //     }
+function showNumber(e) {
+    // console.log(e.target.textContent);
+    if (!storedOperator) {
+        createResultA.innerHTML = bracketA + e.target.textContent;
+        createResultA.style.color = "white";
+        before.appendChild(createResultA);
+        bracketA += e.target.textContent;
+    } else if (storedOperator) {
+        before.innerHTML = '';
+        after.innerHTML = '';
+        createResultB.innerHTML = bracketB + e.target.textContent;
+        createResultB.style.color = "white";
+        after.appendChild(createResultB);
+        bracketB += e.target.textContent;
     }
-    // if there is class valueB, make it store in valueB
-
 }
 
 
-//Function of operaters 
-let storedNumberA;
-
-function operateAndStore(button) {
-    if (button === "plus") { //addition
-        return function() {
+function operateAndStore(e) {
+    if (e.target.id === "+") {
+        if (after.textContent !== '') {
+            storedValueB = after.textContent;
+            storedNumberB = parseInt(storedValueB);
+            after.innerHTML = '';
+            bracketA = '';
+            bracketB = '';
+            before.innerHTML = operate(storedOperator, storedNumberA, storedNumberB);
             storedValueA = before.textContent;
             storedNumberA = parseInt(storedValueA);
             return storedOperator = "+";
-        };
+        } else if (after.textContent === '') {
+            storedValueA = before.textContent;
+            storedNumberA = parseInt(storedValueA);
+            return storedOperator = "+";
+        }
+
+    } else if (e.target.id === "-") {
+        if (after.textContent !== '') {
+            storedValueB = after.textContent;
+            storedNumberB = parseInt(storedValueB);
+            after.innerHTML = '';
+            bracketA = '';
+            bracketB = '';
+            before.innerHTML = operate(storedOperator, storedNumberA, storedNumberB);
+            storedValueA = before.textContent;
+            storedNumberA = parseInt(storedValueA);
+            return storedOperator = "-";
+        } else if (after.textContent === '') {
+            storedValueA = before.textContent;
+            storedNumberA = parseInt(storedValueA);
+            bracketA = '';
+            return storedOperator = "-";
+        }
+    } else if (e.target.id === "*") {
+        if (after.textContent !== '') {
+            storedValueB = after.textContent;
+            storedNumberB = parseInt(storedValueB);
+            after.innerHTML = '';
+            bracketA = '';
+            bracketB = '';
+            before.innerHTML = operate(storedOperator, storedNumberA, storedNumberB);
+            storedValueA = before.textContent;
+            storedNumberA = parseInt(storedValueA);
+            return storedOperator = "*";
+        } else if (after.textContent === '') {
+            storedValueA = before.textContent;
+            storedNumberA = parseInt(storedValueA);
+            bracketA = '';
+            return storedOperator = "*";
+        }
+    } else if (e.target.id === "/") {
+        if (after.textContent !== '') {
+            storedValueB = after.textContent;
+            storedNumberB = parseInt(storedValueB);
+            after.innerHTML = '';
+            bracketA = '';
+            bracketB = '';
+            before.innerHTML = operate(storedOperator, storedNumberA, storedNumberB);
+            storedValueA = before.textContent;
+            storedNumberA = parseInt(storedValueA);
+            return storedOperator = "/";
+        } else if (after.textContent === '') {
+            storedValueA = before.textContent;
+            storedNumberA = parseInt(storedValueA);
+            bracketA = '';
+            return storedOperator = "/";
+        }
     }
+
 }
 
-function cal() {
-    return operate()
+//Function of operaters 
+
+function cal(e) {
+    if ((!storedOperator) || (before.innerHTML === "NaN")) {
+        alert("Error");
+
+    } else if (storedOperator === "+") {
+        storedValueB = after.textContent;
+        storedNumberB = parseInt(storedValueB);
+        before.innerHTML = operate("+", storedNumberA, storedNumberB);
+        storedValueA = after.innerHTML;
+        storedNumberA = parseInt(storedValueA);
+        storedValueB = '';
+        storedNumberB = '';
+        bracketA = '';
+        bracketB = '';
+        after.innerHTML = '';
+        return storedOperator = "=";
+
+    } else if (storedOperator === "-") {
+        storedValueB = after.textContent;
+        storedNumberB = parseInt(storedValueB);
+        before.innerHTML = operate("-", storedNumberA, storedNumberB);
+        storedValueA = after.innerHTML;
+        storedNumberA = parseInt(storedValueA);
+        storedValueB = '';
+        storedNumberB = '';
+        bracketA = '';
+        bracketB = '';
+        after.innerHTML = '';
+        return storedOperator = "=";
+
+    } else if (storedOperator === "*") {
+        storedValueB = after.textContent;
+        storedNumberB = parseInt(storedValueB);
+        before.innerHTML = operate("*", storedNumberA, storedNumberB);
+        storedValueA = after.innerHTML;
+        storedNumberA = parseInt(storedValueA);
+        storedValueB = '';
+        storedNumberB = '';
+        bracketA = '';
+        bracketB = '';
+        after.innerHTML = '';
+        return storedOperator = "=";
+
+    } else if (storedOperator === "/") {
+        storedValueB = after.textContent;
+        storedNumberB = parseInt(storedValueB);
+        if (storedNumberB === 0) {
+            storedValueB = '';
+            storedNumberB = '';
+            after.innerHTML = '';
+            alert("Error! You cannot divide by 0")
+            return
+        } else if (storedNumberB !== 0) {
+            before.innerHTML = Math.round(operate("/", storedNumberA, storedNumberB) * 1000000) / 1000000;
+        }
+        storedValueA = after.innerHTML;
+        storedNumberA = parseInt(storedValueA);
+        storedValueB = '';
+        storedNumberB = '';
+        bracketA = '';
+        bracketB = '';
+        after.innerHTML = '';
+        return storedOperator = "=";
+
+    }
+
 }
 
 function clear() {
+    after.innerHTML = "";
     before.innerHTML = "";
+    storedValueA = '';
+    storedValueB = '';
+    storedNumberA = '';
+    storedNumberB = '';
+    bracketA = '';
+    bracketB = '';
+    storedOperator = '';
 }
 
 //Function of calculation 
